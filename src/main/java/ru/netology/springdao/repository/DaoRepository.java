@@ -16,19 +16,19 @@ import java.io.InputStreamReader;
 public class DaoRepository {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private String scriptSelectFileName = "select_product_name.sql";
-    private String script = read(scriptSelectFileName);
+    private String script;
 
     public DaoRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.script = read(scriptSelectFileName);
     }
 
     public List<String> getProductName(String name) {
-        System.out.println(namedParameterJdbcTemplate.queryForList(read(scriptSelectFileName)
+        List<String> products = namedParameterJdbcTemplate.queryForList(script
                 , Map.of("name", name)
-                , String.class));
-        return namedParameterJdbcTemplate.queryForList(read(scriptSelectFileName),
-                Map.of("name", name)
                 , String.class);
+        System.out.println(products);
+        return products;
     }
 
     private static String read(String scriptFileName) {
